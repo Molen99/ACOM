@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import math
 
 file_name = 'img.png'
 
@@ -75,6 +76,19 @@ def task5():
     cv2.destroyAllWindows()
 
 
+def draw_pentagram_with_circle(image, center, size, color, thickness):
+    points = []
+    for i in range(5):
+        x = int(center[0] + size * math.cos(2 * math.pi * i / 5))
+        y = int(center[1] + size * math.sin(2 * math.pi * i / 5))
+        points.append((x, y))
+    for i in range(5):
+        cv2.line(image, points[i], points[(i + 2) % 5], color, thickness)
+
+    # Рисование круга в центре пентаграммы
+    cv2.circle(image, center, size // 1, color, thickness)
+
+
 def task6():
     input_video_path = 'video.mp4'
     cap = cv2.VideoCapture(input_video_path)
@@ -82,15 +96,20 @@ def task6():
     while True:
         ret, frame = cap.read()
 
+        if not ret:
+            break
+
         height, width, _ = frame.shape
 
-        cross_image = np.copy(frame)
-        cv2.rectangle(cross_image, (width // 2 - 100, height // 2 - 20), (width // 2 + 100, height // 2 + 20),
-                      (0, 0, 255), 15)
-        cv2.rectangle(cross_image, (width // 2 - 20, height // 2 - 100), (width // 2 + 20, height // 2 + 100),
-                      (0, 0, 255), 15)
+        pentagram_image = np.copy(frame)
+        center = (width // 2, height // 2)
+        size = 100  # Размер пентаграммы
+        color = (0, 0, 255)  # Красный цвет
+        thickness = 15  # Толщина линий
 
-        cv2.imshow('Red Cross', cross_image)
+        draw_pentagram_with_circle(pentagram_image, center, size, color, thickness)
+
+        cv2.imshow('Pentagram with Circle', pentagram_image)
 
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
@@ -156,10 +175,10 @@ def task9():
 
 
 if __name__ == '__main__':
-    #task2()
-    #task3()
-    #task4()
-    #task5()
-    #task6()
-    #task8()
-    #task9()
+    # task2()
+    # task3()
+    # task4()
+    # task5()
+     task6()
+    # task8()
+    # task9()
