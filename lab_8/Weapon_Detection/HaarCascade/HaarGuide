@@ -1,0 +1,11 @@
+Обучение
+https://habr.com/ru/articles/208092/
+
+OpenCV  2.4.7
+(скачать всё че надо можно тут: https://sourceforge.net/projects/opencvlibrary/files/?source=navbar)
+
+Первый этап — все положительные изображения приводятся к общему формату.
+1. opencv_createsamples.exe -info PATH -vec samples.vec -w 50 -h 50
+
+Создаём итоговый каскад
+2. opencv_traincascade.exe -data haarcascade -vec samples.vec -bg PATH -numStages 16 -minhitrate 0.999 -maxFalseAlarmRate 0.4 -numPos 200 -numNeg 500 -w 50 -h 50 -mode ALL -precalcValBufSize 1024 -precalcIdxBufSize 1024
